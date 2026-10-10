@@ -1,11 +1,12 @@
 /**
- * Categoría: FUN (6 Endpoints)
- * Horóscopo y Zodiaco, Numerología de nombres, Calculadora de compatibilidad, Bola 8 Mágica, Galleta de la Fortuna y Roasts.
+ * Categoría: FUN (7 Endpoints)
+ * Horóscopo y Zodiaco, Numerología de nombres, Compatibilidad, Bola 8 Mágica,
+ * Galleta de la Fortuna, Roasts y Analizador de IQ (IQC).
  */
 
 module.exports = {
   category: 'FUN',
-  description: 'Zodiaco, significado numerológico de nombres, compatibilidad, Bola 8 Mágica, fortuna y humor.',
+  description: 'Zodiaco, numerología de nombres, compatibilidad, Bola 8 Mágica, fortuna, humor y analizador determinista de IQ.',
   endpoints: [
     {
       name: 'Zodiac Daily Horoscope',
@@ -188,6 +189,63 @@ module.exports = {
           data: {
             target,
             roast: roasts[Math.floor(Math.random() * roasts.length)]
+          }
+        });
+      }
+    },
+    {
+      name: 'IQ Analyzer (IQC JSON)',
+      path: '/api/fun/iqc',
+      method: 'GET',
+      description: 'Analizador de IQ en JSON: devuelve puntaje determinista, percentil, clasificación, desglose cognitivo y veredicto estilo IQ Check.',
+      responseType: 'json',
+      params: [
+        { name: 'name', type: 'string', required: false, example: 'Lyan Valentin', description: 'Nombre de la persona a analizar' },
+        { name: 'seed', type: 'string', required: false, example: '2026', description: 'Semilla opcional para el cálculo determinista' }
+      ],
+      handler: async (req, res) => {
+        const name = (req.query.name || 'Anónimo').trim().slice(0, 40);
+        const seedRaw = `${name.toLowerCase()}::${(req.query.seed || '').trim()}`;
+
+        // Hash determinista FNV-1a
+        let hash = 0x811c9dc5;
+        for (let i = 0; i < seedRaw.length; i++) {
+          hash ^= seedRaw.charCodeAt(i);
+          hash = Math.imul(hash, 0x01000193) >>> 0;
+        }
+
+        const score = 84 + (hash % 57); // 84 - 140
+        const percentile = Math.min(99.9, Math.max(1, ((score - 70) / 80) * 100)).toFixed(1);
+        const tier =
+          score >= 130 ? 'Genio 🧠' :
+          score >= 120 ? 'Superdotado 🚀' :
+          score >= 110 ? 'Sobre la media ✨' :
+          score >= 100 ? 'Inteligencia promedio 👍' :
+          score >= 90 ? 'Promedio bajo 😅' : 'Modesto pero valioso 💪';
+
+        const sub = (offset) => Math.max(70, Math.min(145, score + ((hash >> offset) % 21) - 10));
+
+        res.json({
+          status: true,
+          data: {
+            name,
+            iq_score: score,
+            percentile: Number(percentile),
+            classification: tier,
+            breakdown: {
+              logic: sub(2),
+              memory: sub(6),
+              creativity: sub(10),
+              processing_speed: sub(14),
+              verbal: sub(18)
+            },
+            verdict: score >= 120
+              ? `${name} resuelve problemas mientras otros aún leen el enunciado.`
+              : score >= 100
+                ? `${name} tiene un IQ sólido y equilibrado: ni robot ni NPC.`
+                : `${name} compensa el IQ con carisma y Ctrl+Z. ¡Funciona!`,
+            certified_by: 'IQ Check Console V2',
+            disclaimer: 'Este análisis es entretenimiento determinista, no una evaluación clínica real.'
           }
         });
       }

@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API CONSOLE V2 — Free Public REST API Without API Key</title>
+  <meta name="description" content="Plataforma REST API open-public sin API Key. Descargadores, generadores Brat, IQC, Canvas y más. Ejecuta todo desde el navegador." />
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <!-- Barra de Navegación -->
+  <!-- Navegación -->
   <header class="navbar">
     <div class="navbar-inner">
       <a href="/" class="brand">
@@ -19,18 +20,18 @@
         <a href="/" class="nav-link active">Inicio</a>
         <a href="/playground" class="nav-link">Playground</a>
         <a href="/api/endpoints" target="_blank" class="nav-link">Endpoints JSON</a>
-        <a href="/api/stats" target="_blank" class="nav-link">Status &amp; Metrics</a>
+        <a href="/api/stats" target="_blank" class="nav-link">Status</a>
         <a href="/playground" class="btn btn-primary">Abrir Playground →</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- Hero Principal Estilo Siputzx -->
+    <!-- Hero -->
     <section class="hero">
       <div class="status-pill">
         <span class="pulse-dot"></span>
-        <span>ALL SERVICES ONLINE • NO AUTH REQUIRED • DIRECT EXECUTION</span>
+        <span>ALL SERVICES ONLINE • NO AUTH REQUIRED</span>
       </div>
 
       <h1 class="hero-title">
@@ -39,40 +40,41 @@
       </h1>
 
       <p class="hero-subtitle">
-        Plataforma REST API open-public diseñada para desarrolladores. Sin registro, sin claves de autenticación ni barreras burocráticas. Ejecuta y prueba cualquier endpoint directamente desde tu navegador en el Playground.
+        Plataforma REST API open-public para desarrolladores. Sin registro ni claves de autenticación.
+        Descargadores, generadores de imágenes, IQC, Canvas y herramientas — todo ejecutable desde tu navegador.
       </p>
 
       <div class="hero-actions">
-        <a href="/playground" class="btn btn-primary">⚡ Explorar API Playground</a>
-        <a href="/api/endpoints" target="_blank" class="btn btn-outline">{ } Ver Catálogo JSON (/api/endpoints)</a>
+        <a href="/playground" class="btn btn-primary">Explorar Playground</a>
+        <a href="/api/endpoints" target="_blank" class="btn btn-outline">Ver Catálogo JSON</a>
       </div>
 
-      <!-- Métricas en Tiempo Real -->
+      <!-- Métricas en tiempo real -->
       <div class="metrics-bar">
         <div class="metric-card">
           <div class="metric-label">Endpoints Activos</div>
-          <div class="metric-value" id="stat-endpoints">102</div>
+          <div class="metric-value" id="stat-endpoints">—</div>
           <div class="metric-sub">Auto-descubiertos en vivo</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Categorías</div>
-          <div class="metric-value" id="stat-categories">12</div>
-          <div class="metric-sub">AI • CANVAS • MAKER • GAMES • TOOLS</div>
+          <div class="metric-value" id="stat-categories">—</div>
+          <div class="metric-sub">Downloader • Maker • Canvas • Fun</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Peticiones Ejecutadas</div>
+          <div class="metric-label">Peticiones</div>
           <div class="metric-value" id="stat-requests">0</div>
           <div class="metric-sub">Telemetría en tiempo real</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Latencia Promedio</div>
-          <div class="metric-value" id="stat-latency">4 ms</div>
-          <div class="metric-sub">99.9% Uptime Garantizado</div>
+          <div class="metric-label">Latencia Media</div>
+          <div class="metric-value" id="stat-latency">—</div>
+          <div class="metric-sub">99.9% uptime garantizado</div>
         </div>
       </div>
     </section>
 
-    <!-- Sección ¿Por qué usar nuestra API? -->
+    <!-- Features -->
     <section>
       <div class="section-header">
         <span class="section-tag">// ARQUITECTURA ABIERTA</span>
@@ -81,29 +83,29 @@
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">💸</div>
+          <div class="feature-icon">◎</div>
           <h3>Zero Cost</h3>
-          <p>Sin costos ocultos ni muros de pago. Pensado para proyectos personales, bots de Discord/WhatsApp/Telegram, open source y prototipos rápidos.</p>
+          <p>Sin costos ocultos ni muros de pago. Pensado para bots de Discord/WhatsApp/Telegram, open source y prototipos rápidos.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔓</div>
+          <div class="feature-icon">◇</div>
           <h3>No Auth (Sin API Key)</h3>
-          <p>Dispara peticiones HTTP directamente al endpoint y obtén tus datos al instante. Sin cabeceras obligatorias ni tokens que caducan.</p>
+          <p>Dispara peticiones HTTP directamente al endpoint y obtén tus datos al instante. Sin cabeceras obligatorios ni tokens que caducan.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">⚡</div>
+          <div class="feature-icon">▤</div>
           <h3>Auto-Discovery Registry</h3>
-          <p>Cada archivo que agregas en <code>src/routes/</code> se registra automáticamente en Express y aparece con su formulario en el Playground.</p>
+          <p>Cada archivo en <code>src/routes/</code> se registra automáticamente en Express y aparece con su formulario en el Playground.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🎨</div>
-          <h3>JSON &amp; Canvas Media</h3>
-          <p>Soporta respuestas JSON estructuradas y generación dinámica de imágenes SVG/Canvas en vivo (tarjetas de bienvenida, Spotify, QR, avatares).</p>
+          <div class="feature-icon">◈</div>
+          <h3>JSON &amp; SVG Media</h3>
+          <p>Respuestas JSON estructuradas y generación dinámica de imágenes SVG en vivo: Brat, IQC, tarjetas, pósters y capturas.</p>
         </div>
       </div>
     </section>
 
-    <!-- Preguntas Frecuentes (Q&A) Estilo Siputzx -->
+    <!-- FAQ -->
     <section>
       <div class="section-header">
         <span class="section-tag">// DOCUMENTACIÓN Y Q&amp;A</span>
@@ -117,7 +119,10 @@
             <span class="faq-badge">Auto-Registry</span>
           </button>
           <div class="faq-content">
-            Es súper simple: abre cualquier archivo dentro de <code>src/routes/</code> (por ejemplo <code>src/routes/tools.js</code>) o crea uno nuevo. Solo defines un objeto con <code>name</code>, <code>path</code>, <code>method</code>, <code>params</code> y la función <code>handler(req, res)</code>. El motor <code>src/registry.js</code> lo detecta automáticamente y crea el formulario interactivo en <code>/playground</code>. También puedes usar el botón <strong>"+ Crear Endpoint"</strong> dentro del Playground.
+            Abre cualquier archivo dentro de <code>src/routes/</code> o crea uno nuevo. Defines un objeto con
+            <code>name</code>, <code>path</code>, <code>method</code>, <code>params</code> y la función
+            <code>handler(req, res)</code>. El motor <code>src/registry.js</code> lo detecta automáticamente y crea el
+            formulario interactivo en <code>/playground</code>. También puedes usar el botón <strong>"+ Crear Endpoint"</strong> dentro del Playground.
           </div>
         </div>
 
@@ -127,7 +132,9 @@
             <span class="faq-badge">Status: Disabled</span>
           </button>
           <div class="faq-content">
-            No. Al igual que Siputzx API, todos los endpoints son públicos por defecto para que puedas llamarlos directamente con <code>fetch()</code>, <code>axios</code>, <code>cURL</code> o incluso incrustarlos en etiquetas <code>&lt;img src="/api/canvas/welcome?username=TuNombre"&gt;</code>.
+            No. Todos los endpoints son públicos por defecto para que puedas llamarlos directamente con
+            <code>fetch()</code>, <code>axios</code>, <code>cURL</code> o incrustarlos en etiquetas
+            <code>&lt;img src="/api/m/brat?text=hello"&gt;</code>.
           </div>
         </div>
 
@@ -137,7 +144,22 @@
             <span class="faq-badge">Playground V2</span>
           </button>
           <div class="faq-content">
-            El Playground consulta <code>GET /api/endpoints</code> al cargar, agrupa las rutas por categoría, permite filtrar por nombre o método HTTP, y al hacer clic en cualquier endpoint abre una consola de ejecución directa que mide los milisegundos de respuesta, muestra el código <code>cURL</code> / <code>JS</code> y renderiza JSON o imágenes en tiempo real.
+            El Playground consulta <code>GET /api/endpoints</code> al cargar, agrupa las rutas por categoría, permite
+            filtrar por nombre o método HTTP, y al hacer clic en cualquier endpoint abre una consola de ejecución directa
+            que mide la latencia, muestra el código <code>cURL</code> / <code>JS</code> / <code>Python</code> y renderiza
+            JSON o imágenes en tiempo real.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" type="button">
+            <span>¿Qué incluye la colección de descargadores y generadores?</span>
+            <span class="faq-badge">13+ Downloaders</span>
+          </button>
+          <div class="faq-content">
+            13 downloaders completos (TikTok sin marca de agua HD y MP3, TikTok V2, Instagram Reels/Post/Stories,
+            YouTube MP4/MP3, Spotify, Twitter/X, Facebook, Pinterest, SoundCloud, CapCut, MediaFire, Google Drive y GitHub),
+            generadores Brat (Deluxe, Animated, Sticker, Story), iPhone Quoted Chat (IQC) y tarjetas Canvas totalmente personalizables.
           </div>
         </div>
       </div>
@@ -147,10 +169,10 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>
-        <strong>API CONSOLE V2</strong> — Inspirado en Siputzx Playground • Desarrollado con Node.js &amp; Express
+        <strong>API CONSOLE V2</strong> — Ultra-clean REST API Platform · Node.js &amp; Express
       </div>
       <div>
-        <a href="/playground" style="color: var(--accent-emerald); font-family: var(--font-mono);">Ir a /playground →</a>
+        <a href="/playground" style="color: var(--text-primary); font-family: var(--font-mono);">Ir a /playground →</a>
       </div>
     </div>
   </footer>
