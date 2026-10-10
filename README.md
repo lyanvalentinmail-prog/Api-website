@@ -1,109 +1,110 @@
-# 🚀 API CONSOLE V2 — Plataforma REST API + Playground Interactivo (Estilo Siputzx)
+# API Console — REST API pública sin clave
 
-Una plataforma **REST API pública sin API Key** con su propio entorno de ejecución interactivo en el navegador (`/playground`), inspirada en **[app.siputzx.my.id/playground](https://app.siputzx.my.id/playground)**.
+Plataforma Node.js + Express con **34 endpoints que hacen lo que prometen**:
+generadores de imágenes (Brat e iPhone Quoted Chat), tarjetas para bots y
+utilidades reales de desarrollo, más un **Playground** (`/playground`) para
+ejecutar cualquier endpoint desde el navegador con snippets de `cURL`,
+`fetch` y `Python`.
 
----
-
-## 🧠 ¿Cómo funciona por dentro una web como Siputzx Playground?
-
-El secreto para construir un portal de APIs como el de Siputzx sin tener que escribir el HTML de cada endpoint a mano se basa en **3 componentes conectados**:
-
-1. **Rutas Autodescritas (`src/routes/*.js`)**:
-   Cada archivo representa una categoría (`AI`, `CANVAS`, `ANIME`, `GAMES`, `TOOLS`, `SEARCH`, `DOWNLOADER`, `RANDOM`) y exporta un arreglo `endpoints`. Cada endpoint incluye tanto su **lógica (`handler`)** como sus **metadatos (`name`, `path`, `method`, `params`, `responseType`)**.
-2. **Motor de Auto-Descubrimiento (`src/registry.js`)**:
-   Al iniciar el servidor Express, el registro lee automáticamente todos los archivos de `src/routes/`, monta cada ruta en Express (`app.get` / `app.post`), mide el tiempo de respuesta en milisegundos (`X-Response-Time`) y publica el catálogo completo en `GET /api/endpoints`.
-3. **Consola de Ejecución Directa (`public/playground.html` + `public/js/playground.js`)**:
-   El frontend consulta `GET /api/endpoints`, agrupa los endpoints por categoría, genera buscador + filtros y construye dinámicamente los formularios de prueba, fragmentos de código (`URL`, `cURL`, `fetch`, `Python`) y el visor inteligente capaz de renderizar **JSON formateado** o **imágenes SVG/Canvas en vivo**.
+Sin registro, sin API key y sin datos fingidos: si un endpoint no puede
+garantizar su salida (por ejemplo, una consulta a un servicio externo que no
+responde), devuelve `status:false` con el motivo en lugar de inventar datos.
 
 ---
 
-## 📁 Estructura del Proyecto
+## Categorías y endpoints
+
+| Categoría | Endpoints | Qué hace |
+|---|---|---|
+| **MAKER** | `/api/maker/brat` · `/api/maker/iqc` · `/api/maker/neon` | Portadas estilo **bratgenerator.com** (fondo `#8ACE00`, Arial Narrow en minúsculas con stretch + blur, ratios 1:1 / 9:16 / 4:3), capturas **IQC** realistas de iMessage y letreros de neón. |
+| **CANVAS** | `welcome` · `goodbye` · `profile` · `tweet` · `certificate` · `quote-card` · `code-snap` · `iq-card` · `captcha` | Tarjetas SVG limpias para bots y capturas; consumen los assets compartidos. |
+| **TOOLS** | `qrcode` · `hash` · `password` · `uuid` · `base64` · `jwt-decoder` · `cron-parser` · `color-palette` · `unit-converter` · `slugify` · `ip-subnet` | Utilidades 100 % locales y verificables (criptografía, QR, JWT, CIDR…). |
+| **LOOKUP** | `github` · `npm` · `dns` · `youtube-thumbnails` · `http-status` | Consultas **en vivo** contra GitHub, NPM y DNS; si el upstream cae, `status:false`. |
+| **INFO** | `world-time` · `moon-phase` | Hora mundial y fase lunar calculadas localmente. |
+| **FUN** | `zodiac` · `love-calculator` · `8ball` · `roast` | Entretenimiento claramente lúdico. |
+
+Catálogo completo y auto-descubierto en `GET /api/endpoints` · métricas reales en `GET /api/stats`.
+
+---
+
+## Estructura
 
 ```text
 Api-website/
-├── server.js                  # Servidor Express principal (Landing, Playground y API)
-├── package.json               # Dependencias (express, cors, qrcode)
+├── server.js              # Express: rutas, assets, web y 404 JSON
+├── scripts/smoke.js       # `npm test`: ejecuta TODOS los endpoints y verifica salidas
 ├── src/
-│   ├── registry.js            # Auto-descubrimiento de rutas y telemetría en tiempo real
-│   └── routes/                # Categorías de endpoints (¡Agrega los tuyos aquí!)
-│       ├── ai.js              # /api/ai/* (Chat, Prompt Enhancer, Sentiment, Summarizer)
-│       ├── anime.js           # /api/anime/* (Quotes, Search, Schedule)
-│       ├── canvas.js          # /api/canvas/* (Welcome, Profile, Spotify, Tweet, Captcha)
-│       ├── downloader.js      # /api/d/* (GitHub Downloader, Media URL Inspector)
-│       ├── games.js           # /api/games/* (Trivia, Riddle, Scramble, Math, Flag Quiz)
-│       ├── random.js          # /api/r/* (Pixel Avatar SVG, Tech Facts, Dev Excuses)
-│       ├── search.js          # /api/s/* (Country Info, HTTP Status Reference)
-│       └── tools.js           # /api/tools/* (QR Code, Hash, Password, UUID, Base64, VCC)
-└── public/
-    ├── index.html             # Landing Page ("NO LOGIN. NO KEY. JUST PURE REST API.")
-    ├── playground.html        # API CONSOLE V2 (/playground)
-    ├── css/styles.css         # Diseño Cyber-Developer oscuro
-    └── js/
-        ├── landing.js         # Métricas en tiempo real y FAQ
-        └── playground.js      # Motor interactivo del Playground y Builder de Endpoints
+│   ├── registry.js        # Auto-descubrimiento de src/routes/*.js + telemetría
+│   ├── lib/
+│   │   ├── util.js        # escapeXml, wrapText por ancho, seeds, etc.
+│   │   └── assets.js      # dataUri() / inlineSvg() para incrustar /assets
+│   └── routes/            # maker · canvas · tools · lookup · info · fun
+├── assets/                # Imágenes del proyecto (ver assets/README.md)
+│   ├── iqc/               #   avatares (JPG/SVG) y wallpapers del IQC
+│   ├── cards/             #   patrones e insignias para tarjetas
+│   └── ui/                #   logo, favicon y Open Graph de la web
+└── public/                # Landing + Playground (CSS limpio, claro/oscuro)
 ```
+
+Los assets se sirven en `GET /assets/*` **y** se incrustan en cada SVG generado,
+de modo que las respuestas son autónomas. **Brat no usa assets**: su salida es
+100 % tipográfica, como el original.
 
 ---
 
-## ➕ ¿Cómo agregar un nuevo Endpoint?
+## Añadir un endpoint
 
-Tienes **dos formas** de hacerlo:
-
-### Opción A: Agregándolo en código (`src/routes/`)
-Abre cualquier archivo en `src/routes/` (por ejemplo `src/routes/tools.js`) o crea un archivo nuevo como `src/routes/mi-categoria.js`:
+Crea o edita un archivo en `src/routes/` y exporta `{ category, description, endpoints }`:
 
 ```js
 module.exports = {
   category: 'MI_CATEGORIA',
-  description: 'Descripción breve de tu categoría',
+  description: 'Descripción breve',
   endpoints: [
     {
-      name: 'Saludo Personalizado',
+      name: 'Saludo',
       path: '/api/custom/saludo',
       method: 'GET',
       description: 'Devuelve un saludo en JSON.',
       responseType: 'json', // 'json' o 'image'
       params: [
-        {
-          name: 'nombre',
-          type: 'string', // 'string', 'number' o 'select'
-          required: true,
-          example: 'Lyan',
-          description: 'Tu nombre'
-        }
+        { name: 'nombre', type: 'string', required: true, example: 'Lyan', description: 'Tu nombre' }
       ],
       handler: async (req, res) => {
-        const { nombre = 'Mundo' } = req.query;
-        res.json({
-          status: true,
-          data: {
-            mensaje: `¡Hola, ${nombre}! Bienvenido a mi API.`
-          }
-        });
+        res.json({ status: true, data: { mensaje: `¡Hola, ${req.query.nombre || 'mundo'}!` } });
       }
     }
   ]
 };
 ```
 
-¡Listo! Al reiniciar el servidor, el endpoint aparecerá automáticamente en `/playground` con su formulario de parámetros, botón de ejecución y generador `cURL`.
-
-### Opción B: Desde el botón `+ Crear Endpoint` en `/playground`
-Dentro de la interfaz web en `/playground`, haz clic en **`+ Crear Endpoint`** arriba a la derecha para registrar un endpoint en caliente sin reiniciar el servidor y obtener el código Node.js generado automáticamente.
+Al reiniciar, el registry lo monta en Express y aparece solo en el Playground.
+Regla de la casa: **si no funciona de verdad, no se agrega**.
 
 ---
 
-## 🛠️ Instalación y Uso Local
+## Uso
 
 ```bash
-# 1. Instalar dependencias
 npm install
-
-# 2. Iniciar el servidor
-npm start
+npm start     # landing en / y consola en /playground
+npm test      # smoke test: ejecuta todos los endpoints y verifica salidas
 ```
 
-- **Landing Page:** `http://localhost:3000/`
-- **API Playground:** `http://localhost:3000/playground`
-- **Catálogo JSON:** `http://localhost:3000/api/endpoints`
-- **Estadísticas en vivo:** `http://localhost:3000/api/stats`
+Ejemplos:
+
+```html
+<img src="/api/maker/brat?text=brat%20summer" />
+<img src="/api/maker/iqc?text=Hola%20desde%20un%20bot&avatar=ana&tapback=heart" />
+```
+
+```bash
+curl "TU-DOMINIO/api/tools/hash?text=secreto&algorithm=sha256"
+```
+
+---
+
+## Despliegue
+
+Incluye `render.yaml` (Render) y `vercel.json` (Vercel) listos: el entrypoint
+es `server.js` y no requiere variables de entorno.

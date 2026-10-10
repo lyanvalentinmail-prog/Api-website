@@ -3,177 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API CONSOLE V2 — Free Public REST API Without API Key</title>
-  <meta name="description" content="Plataforma REST API open-public sin API Key. Descargadores, generadores Brat, IQC, Canvas y más. Ejecuta todo desde el navegador." />
+  <title>API Console — REST API pública sin clave</title>
+  <meta name="description" content="API pública sin registro: generadores Brat e IQC, tarjetas Canvas y utilidades reales, ejecutables desde el navegador." />
+  <meta property="og:title" content="API Console" />
+  <meta property="og:description" content="REST API pública sin clave. Brat, IQC, tarjetas y utilidades, con Playground interactivo." />
+  <meta property="og:image" content="/assets/ui/og.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/ui/favicon.svg" />
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <!-- Navegación -->
   <header class="navbar">
-    <div class="navbar-inner">
+    <div class="container navbar-inner">
       <a href="/" class="brand">
-        <div class="brand-logo">API</div>
-        <span>API CONSOLE</span>
-        <span class="brand-badge">V2.0</span>
+        <img src="/assets/ui/logo.svg" alt="" />
+        <span>API Console</span>
+        <small>v3</small>
       </a>
       <nav class="nav-links">
         <a href="/" class="nav-link active">Inicio</a>
         <a href="/playground" class="nav-link">Playground</a>
-        <a href="/api/endpoints" target="_blank" class="nav-link">Endpoints JSON</a>
-        <a href="/api/stats" target="_blank" class="nav-link">Status</a>
-        <a href="/playground" class="btn btn-primary">Abrir Playground →</a>
+        <a href="/api/endpoints" class="nav-link">Catálogo JSON</a>
+        <a href="/playground" class="btn btn-primary btn-sm">Probar endpoints</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- Hero -->
     <section class="hero">
-      <div class="status-pill">
-        <span class="pulse-dot"></span>
-        <span>ALL SERVICES ONLINE • NO AUTH REQUIRED</span>
-      </div>
-
-      <h1 class="hero-title">
-        NO LOGIN. NO KEY.<br />
-        <span class="gradient-text">JUST PURE REST API.</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Plataforma REST API open-public para desarrolladores. Sin registro ni claves de autenticación.
-        Descargadores, generadores de imágenes, IQC, Canvas y herramientas — todo ejecutable desde tu navegador.
+      <h1>API pública, sin clave.<br /><span class="accent">Pide, ejecuta y listo.</span></h1>
+      <p class="lede">
+        Un conjunto acotado de endpoints que hacen lo que prometen: generadores de imágenes
+        (Brat e iPhone&nbsp;Quoted&nbsp;Chat), tarjetas para bots y utilidades de desarrollo.
+        Sin registro, sin tokens, sin datos fingidos.
       </p>
-
       <div class="hero-actions">
-        <a href="/playground" class="btn btn-primary">Explorar Playground</a>
-        <a href="/api/endpoints" target="_blank" class="btn btn-outline">Ver Catálogo JSON</a>
+        <a href="/playground" class="btn btn-primary">Abrir Playground</a>
+        <a href="/api/endpoints" class="btn btn-outline">GET /api/endpoints</a>
       </div>
 
-      <!-- Métricas en tiempo real -->
-      <div class="metrics-bar">
-        <div class="metric-card">
-          <div class="metric-label">Endpoints Activos</div>
-          <div class="metric-value" id="stat-endpoints">—</div>
-          <div class="metric-sub">Auto-descubiertos en vivo</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Categorías</div>
-          <div class="metric-value" id="stat-categories">—</div>
-          <div class="metric-sub">Downloader • Maker • Canvas • Fun</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Peticiones</div>
-          <div class="metric-value" id="stat-requests">0</div>
-          <div class="metric-sub">Telemetría en tiempo real</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Latencia Media</div>
-          <div class="metric-value" id="stat-latency">—</div>
-          <div class="metric-sub">99.9% uptime garantizado</div>
-        </div>
+      <div class="stats-row" id="stats-row">
+        <div class="stat"><div class="num" id="stat-endpoints">—</div><div class="lbl">endpoints activos</div></div>
+        <div class="stat"><div class="num" id="stat-categories">—</div><div class="lbl">categorías</div></div>
+        <div class="stat"><div class="num" id="stat-requests">0</div><div class="lbl">peticiones servidas</div></div>
       </div>
     </section>
 
-    <!-- Features -->
     <section>
-      <div class="section-header">
-        <span class="section-tag">// ARQUITECTURA ABIERTA</span>
-        <h2 class="section-title">¿Por qué usar API CONSOLE V2?</h2>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">◎</div>
-          <h3>Zero Cost</h3>
-          <p>Sin costos ocultos ni muros de pago. Pensado para bots de Discord/WhatsApp/Telegram, open source y prototipos rápidos.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">◇</div>
-          <h3>No Auth (Sin API Key)</h3>
-          <p>Dispara peticiones HTTP directamente al endpoint y obtén tus datos al instante. Sin cabeceras obligatorios ni tokens que caducan.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">▤</div>
-          <h3>Auto-Discovery Registry</h3>
-          <p>Cada archivo en <code>src/routes/</code> se registra automáticamente en Express y aparece con su formulario en el Playground.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">◈</div>
-          <h3>JSON &amp; SVG Media</h3>
-          <p>Respuestas JSON estructuradas y generación dinámica de imágenes SVG en vivo: Brat, IQC, tarjetas, pósters y capturas.</p>
-        </div>
+      <h2 class="section-title">Generadores en vivo</h2>
+      <p class="section-sub">Cada imagen de abajo se renderiza ahora mismo con su endpoint: son <code>&lt;img&gt;</code> contra la API, no capturas.</p>
+      <div class="gallery">
+        <figure>
+          <div class="thumb"><img src="/api/maker/brat?text=brat%20summer&blur=3" alt="Portada brat" /></div>
+          <figcaption>/api/maker/brat?text=brat summer</figcaption>
+        </figure>
+        <figure>
+          <div class="thumb"><img src="/api/maker/iqc?name=Lyan&text=Listo,%20el%20PR%20ya%20est%C3%A1%20mergeado%20%F0%9F%9A%80&replyTo=Mam%C3%A1&replyText=%C2%BFTerminaste%20el%20proyecto?&tapback=heart&scale=1" alt="Captura iMessage IQC" style="max-height:290px" /></div>
+          <figcaption>/api/maker/iqc</figcaption>
+        </figure>
+        <figure>
+          <div class="thumb"><img src="/api/canvas/quote-card?quote=Hazlo%20simple,%20pero%20significativo.&author=An%C3%B3nimo&theme=light" alt="Tarjeta de cita" /></div>
+          <figcaption>/api/canvas/quote-card</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- FAQ -->
     <section>
-      <div class="section-header">
-        <span class="section-tag">// DOCUMENTACIÓN Y Q&amp;A</span>
-        <h2 class="section-title">Preguntas Frecuentes</h2>
+      <h2 class="section-title">Categorías</h2>
+      <p class="section-sub">Catálogo real, auto-descubierto al arrancar el servidor desde <code>src/routes/</code>.</p>
+      <div class="cat-grid" id="cat-grid">
+        <p class="section-sub">Cargando catálogo…</p>
       </div>
+    </section>
 
-      <div class="faq-list">
-        <div class="faq-item open">
-          <button class="faq-trigger" type="button">
-            <span>¿Cómo agrego mis propios endpoints a este servidor?</span>
-            <span class="faq-badge">Auto-Registry</span>
-          </button>
-          <div class="faq-content">
-            Abre cualquier archivo dentro de <code>src/routes/</code> o crea uno nuevo. Defines un objeto con
-            <code>name</code>, <code>path</code>, <code>method</code>, <code>params</code> y la función
-            <code>handler(req, res)</code>. El motor <code>src/registry.js</code> lo detecta automáticamente y crea el
-            formulario interactivo en <code>/playground</code>. También puedes usar el botón <strong>"+ Crear Endpoint"</strong> dentro del Playground.
-          </div>
-        </div>
+    <section>
+      <h2 class="section-title">Uso en 30 segundos</h2>
+      <p class="section-sub">Cualquier endpoint se consume directo con <code>fetch</code>, <code>cURL</code> o una etiqueta <code>&lt;img&gt;</code>.</p>
+      <pre class="code-block"><span class="c"># cURL</span>
+curl "https://TU-DOMINIO/api/maker/brat?text=hola%20mundo"
 
-        <div class="faq-item">
-          <button class="faq-trigger" type="button">
-            <span>¿Necesito API Key para consumir los endpoints?</span>
-            <span class="faq-badge">Status: Disabled</span>
-          </button>
-          <div class="faq-content">
-            No. Todos los endpoints son públicos por defecto para que puedas llamarlos directamente con
-            <code>fetch()</code>, <code>axios</code>, <code>cURL</code> o incrustarlos en etiquetas
-            <code>&lt;img src="/api/m/brat?text=hello"&gt;</code>.
-          </div>
-        </div>
+<span class="c"># JavaScript</span>
+const img = document.createElement('img');
+img.src = '/api/maker/iqc?text=Hola%20desde%20un%20bot&avatar=ana';
+document.body.appendChild(img);
 
-        <div class="faq-item">
-          <button class="faq-trigger" type="button">
-            <span>¿Cómo funciona el Playground interactivo (/playground)?</span>
-            <span class="faq-badge">Playground V2</span>
-          </button>
-          <div class="faq-content">
-            El Playground consulta <code>GET /api/endpoints</code> al cargar, agrupa las rutas por categoría, permite
-            filtrar por nombre o método HTTP, y al hacer clic en cualquier endpoint abre una consola de ejecución directa
-            que mide la latencia, muestra el código <code>cURL</code> / <code>JS</code> / <code>Python</code> y renderiza
-            JSON o imágenes en tiempo real.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-trigger" type="button">
-            <span>¿Qué incluye la colección de descargadores y generadores?</span>
-            <span class="faq-badge">13+ Downloaders</span>
-          </button>
-          <div class="faq-content">
-            13 downloaders completos (TikTok sin marca de agua HD y MP3, TikTok V2, Instagram Reels/Post/Stories,
-            YouTube MP4/MP3, Spotify, Twitter/X, Facebook, Pinterest, SoundCloud, CapCut, MediaFire, Google Drive y GitHub),
-            generadores Brat (Deluxe, Animated, Sticker, Story), iPhone Quoted Chat (IQC) y tarjetas Canvas totalmente personalizables.
-          </div>
-        </div>
-      </div>
+<span class="c"># JSON</span>
+const data = await fetch('/api/tools/hash?text=secreto&algorithm=sha256').then(r => r.json());</pre>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>
-        <strong>API CONSOLE V2</strong> — Ultra-clean REST API Platform · Node.js &amp; Express
-      </div>
-      <div>
-        <a href="/playground" style="color: var(--text-primary); font-family: var(--font-mono);">Ir a /playground →</a>
-      </div>
+      <div><strong>API Console</strong> — Node.js + Express · imágenes y assets en <code>/assets</code></div>
+      <div><a href="/playground">Playground</a> · <a href="/api/stats">Status</a></div>
     </div>
   </footer>
 
