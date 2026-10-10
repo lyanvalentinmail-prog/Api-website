@@ -1,13 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Acordeón FAQ
-  document.querySelectorAll('.faq-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      item.classList.toggle('open');
-    });
-  });
-
-  // Cargar métricas en tiempo real desde /api/stats
   async function loadStats() {
     try {
       const res = await fetch('/api/stats');
@@ -16,13 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('stat-endpoints').textContent = data.total_endpoints;
         document.getElementById('stat-categories').textContent = data.total_categories;
         document.getElementById('stat-requests').textContent = data.total_requests;
-        document.getElementById('stat-latency').textContent = `${data.average_latency_ms} ms`;
       }
+    } catch (e) { /* sin métricas, la página sigue funcionando */ }
+  }
+
+  async function loadCategories() {
+    try {
+      const res = await fetch('/api/endpoints');
+      const catalog = await res.json();
+      const grid = document.getElementById('cat-grid');
+      grid.innerHTML = (catalog.categories || []).map(cat => `
+        <div class="cat-card">
+          <div class="top"><h3>${cat.name}</h3><span class="count">${cat.count} endpoints</span></div>
+          <p>${cat.description}</p>
+          <div class="routes">${(cat.endpoints || []).slice(0, 3).map(e => e.path).join('  ·  ')}${cat.count > 3 ? '  …' : ''}</div>
+        </div>`).join('');
     } catch (e) {
-      console.warn('No se pudieron cargar las métricas:', e);
+      document.getElementById('cat-grid').innerHTML = '<p class="section-sub">No se pudo cargar el catálogo.</p>';
     }
   }
 
   loadStats();
-  setInterval(loadStats, 8000);
+  loadCategories();
+  setInterval(loadStats, 10000);
 });

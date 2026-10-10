@@ -1,11 +1,12 @@
 {
   "name": "api-website",
-  "version": "2.0.0",
-  "description": "Plataforma REST API Open-Public con Playground Interactivo estilo Siputzx API Console V2",
+  "version": "3.0.0",
+  "description": "REST API pública sin clave: generadores Brat e IQC, tarjetas Canvas y utilidades reales, con Playground.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node scripts/smoke.js"
   },
   "repository": {
     "type": "git",
@@ -14,9 +15,9 @@
   "keywords": [
     "rest-api",
     "api-playground",
-    "api-console",
-    "express",
-    "siputzx-clone"
+    "brat-generator",
+    "iqc",
+    "express"
   ],
   "author": "Lyan Valentin",
   "license": "MIT",
